@@ -1,13 +1,20 @@
 package cz.ankach.cms.repository;
 
 import cz.ankach.cms.entity.User;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Service
 public class UserRepository {
     private final HashMap<Long, User> storage;
+
+    public List<User> getUsers() {
+        return this.storage.values().stream().toList();
+    }
 
     public UserRepository() {
         this.storage = new HashMap<>();
