@@ -1,17 +1,16 @@
 package cz.ankach.cms.api.controller;
 
 import cz.ankach.cms.api.requests.CreateUserRequest;
-import cz.ankach.cms.entity.Comment;
 import cz.ankach.cms.entity.Role;
 import cz.ankach.cms.entity.User;
 import cz.ankach.cms.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,7 +28,11 @@ public class UserController {
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     public User getUser(@PathVariable Long userId) {
-        return this.userRepository.getUserById(userId);
+        User user = this.userRepository.getUserById(userId);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return user;
     }
 
     @PostMapping(path= "/users", consumes = "application/json", produces = "application/json")
@@ -37,7 +40,7 @@ public class UserController {
             @RequestBody CreateUserRequest formRequest
     ) {
         User user = new User(formRequest.firstname, formRequest.lastname, formRequest.username);
-        user.addRole(new Role("READER"));
+        formRequest.roles.forEach((role) -> user.addRole(new Role(role)));
 
         this.userRepository.addUser(user);
         //Create resource location
