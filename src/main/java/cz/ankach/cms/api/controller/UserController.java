@@ -8,13 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class UserController extends AbstractController {
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
@@ -40,17 +38,15 @@ public class UserController {
             @RequestBody CreateUserRequest formRequest
     ) {
         User user = new User(formRequest.firstname, formRequest.lastname, formRequest.username);
-        formRequest.roles.forEach((role) -> user.addRole(new Role(role)));
+        formRequest.roles.forEach((roleName) -> {
+            Role role = this.userRepository.getRole(roleName);
+            if (role == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User role has not found");
+            }
+            user.addRole(role);
+        });
 
         this.userRepository.addUser(user);
-        //Create resource location
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(user.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).build();
+        return this.sendCreated("userId", String.valueOf(user.getId()));
     }
-
-
 }
