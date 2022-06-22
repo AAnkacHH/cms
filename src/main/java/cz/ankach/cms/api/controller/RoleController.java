@@ -7,7 +7,6 @@ import cz.ankach.cms.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +29,7 @@ public class RoleController extends AbstractController {
     public Role getRole(@PathVariable Long roleId) {
         Role role = this.userRepository.getRoleById(roleId);
         if (role == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found.");
+            this.sendNotFound("Role not found.");
         }
         return role;
     }
@@ -39,7 +38,7 @@ public class RoleController extends AbstractController {
     public Role getRole(@PathVariable String roleName) {
         Role role = this.userRepository.getRole(roleName);
         if (role == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found.");
+            this.sendNotFound("Role not found.");
         }
         return role;
     }
@@ -51,7 +50,7 @@ public class RoleController extends AbstractController {
         String[] allowedActions = Action.getActions();
         formRequest.actions.forEach((a) -> {
            if (!Arrays.asList(allowedActions).contains(a)) {
-               throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown action. Action: " + a);
+               this.sendNotFound("Unknown action. Action: " + a);
            }
         });
 
@@ -67,7 +66,7 @@ public class RoleController extends AbstractController {
     public void removeRole(@PathVariable Long roleId) {
         Role role = this.userRepository.getRoleById(roleId);
         if (role == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found.");
+            this.sendNotFound("Role not found.");
         }
     }
 }

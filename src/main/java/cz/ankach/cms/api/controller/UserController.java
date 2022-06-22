@@ -4,10 +4,8 @@ import cz.ankach.cms.api.requests.CreateUserRequest;
 import cz.ankach.cms.entity.Role;
 import cz.ankach.cms.entity.User;
 import cz.ankach.cms.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class UserController extends AbstractController {
     public User getUser(@PathVariable Long userId) {
         User user = this.userRepository.getUserById(userId);
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            this.sendNotFound("User not found.");
         }
         return user;
     }
@@ -41,7 +39,7 @@ public class UserController extends AbstractController {
         formRequest.roles.forEach((roleName) -> {
             Role role = this.userRepository.getRole(roleName);
             if (role == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User role has not found");
+                this.sendNotFound("User role not found.");
             }
             user.addRole(role);
         });
