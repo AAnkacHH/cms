@@ -50,11 +50,15 @@ public class UserService {
         if (request.firstname != null) {
             user.setFirstname(request.firstname);
         }
-        if (request.firstname != null) {
+        if (request.lastname != null) {
             user.setLastName(request.lastname);
         }
+        if (request.roles == null) {
+            return;
+        }
+
         List<String> newRoles = new ArrayList<>(request.roles);
-        List<String> userRoles = user.getRoleIdents();
+        List<String> userRoles = new ArrayList<>(user.getRoleIdents());
         Set<String> commonRoles = newRoles.stream()  // get common roles
                 .distinct()
                 .filter(userRoles::contains)
