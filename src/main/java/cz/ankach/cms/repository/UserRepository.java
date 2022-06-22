@@ -64,4 +64,6 @@ public class UserRepository {
     public void removeRole(Role role) {
         this.roleStorage.remove(role.getName());
     }
+
+    public void removeUser(User user) { this.storage.remove(user.getId()); }
 }
