@@ -14,7 +14,7 @@ public final class Action {
     public static final String EDIT_ADMIN_PANEL = "EDIT_ADMIN_PANEL";
 
     public static final String WRITE_ARTICLE = "WRITE_ARTICLE";
-    public static final String WRITE_COMMENTS = "WRITE_ARTICLE";
+    public static final String WRITE_COMMENTS = "WRITE_COMMENTS";
 
     public static String[] getActions() {
         return new String[] {

@@ -1,6 +1,7 @@
 package cz.ankach.cms.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -40,8 +41,20 @@ public class User {
         return roles;
     }
 
+    public List<String> getRoleIdents() {
+        return roles.stream().map(Role::getName).toList();
+    }
+
+    public boolean hasRole(String roleName) {
+        return roles.stream().anyMatch(r -> r.getName().equals(roleName));
+    }
+
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
 
     public void setFirstname(String firstname) {
