@@ -1,6 +1,8 @@
 package cz.ankach.cms.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
@@ -17,7 +19,11 @@ public class User {
     private String lastname;
     private String username;
 
-    public User () {}
+    @OneToMany(mappedBy = "user")
+    Set<UserRole> roles = new HashSet<>();
+
+    public User () {
+    }
 
     public User(String firstname, String lastname, String username) {
         this.firstname = firstname;
@@ -37,10 +43,6 @@ public class User {
         return firstname;
     }
 
-    public String getLastName() {
-        return lastname;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -51,5 +53,13 @@ public class User {
 
     public void setLastName(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
     }
 }
