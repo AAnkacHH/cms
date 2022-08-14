@@ -3,6 +3,8 @@ package cz.ankach.cms.entity;
 import javax.persistence.*;
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "user_role")
 public class UserRole {
@@ -20,12 +22,15 @@ public class UserRole {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public UserRole() {
-    }
+    @Column(name = "local_date_time", columnDefinition = "TIMESTAMP")
+    private LocalDateTime addedAt;
 
-    public UserRole(User user, Role role) {
+    public UserRole() {}
+
+    public UserRole(User user, Role role, LocalDateTime addedAt) {
         this.user = user;
         this.role = role;
+        this.addedAt = addedAt;
     }
 
     public Long getId() {
@@ -50,5 +55,13 @@ public class UserRole {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LocalDateTime getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(LocalDateTime addedAt) {
+        this.addedAt = addedAt;
     }
 }

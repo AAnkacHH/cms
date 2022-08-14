@@ -22,4 +22,8 @@ public class AbstractController {
     public void sendNotFound(String message) {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, message);
     }
+
+    public void sendConflict(String message) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, message);
+    }
 }

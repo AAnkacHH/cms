@@ -19,7 +19,7 @@ public class User {
     private String lastname;
     private String username;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     Set<UserRole> roles = new HashSet<>();
 
     public User () {
@@ -61,5 +61,9 @@ public class User {
 
     public Set<UserRole> getRoles() {
         return roles;
+    }
+
+    public void addRole(UserRole role) {
+        this.roles.add(role);
     }
 }
