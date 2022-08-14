@@ -2,6 +2,9 @@ package cz.ankach.cms.api.responses;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class represents json payload in http response for article objects.
+ * */
 public class ArticleResponse {
     public String title;
     public String content;
