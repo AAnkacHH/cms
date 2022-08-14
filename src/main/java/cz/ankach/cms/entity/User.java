@@ -1,67 +1,69 @@
 package cz.ankach.cms.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+import static javax.persistence.GenerationType.SEQUENCE;
 
+@Entity
+@Table(name = "app_user")
 public class User {
 
-    private static long idGenerator = 1;
-    private final long id;
+    @Id
+    @SequenceGenerator(name = "user_id_gen", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = SEQUENCE, generator = "user_id_gen")
+    @Column(name = "user_id", updatable = false)
+    private Long id;
+
     private String firstname;
-    private String lastName;
-    private final String username;
+    private String lastname;
+    private String username;
 
-    private final ArrayList<Role> roles;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    Set<UserRole> roles = new HashSet<>();
 
-    public User(String firstname, String lastName, String username) {
-        this.id = idGenerator++;
-        this.firstname = firstname;
-        this.lastName = lastName;
-        this.username = username;
-        this.roles = new ArrayList<>();
+    public User () {
     }
 
-    public long getId() {
+    public User(String firstname, String lastname, String username) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+    }
+
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
         return firstname;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public ArrayList<Role> getRoles() {
-        return roles;
-    }
-
-    public List<String> getRoleIdents() {
-        return roles.stream().map(Role::getName).toList();
-    }
-
-    public boolean hasRole(String roleName) {
-        return roles.stream().anyMatch(r -> r.getName().equals(roleName));
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public void removeRole(Role role) {
-        this.roles.remove(role);
     }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void addRole(UserRole role) {
+        this.roles.add(role);
     }
 }

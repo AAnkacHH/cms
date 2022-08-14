@@ -1,34 +1,30 @@
 package cz.ankach.cms.entity;
 
-import java.util.ArrayList;
+import javax.persistence.*;
+import static javax.persistence.GenerationType.SEQUENCE;
 
+@Entity
+@Table(name = "role", uniqueConstraints = {
+      @UniqueConstraint(name = "udx_role_name", columnNames = {"name"})
+})
 public class Role {
+    @Id
+    @SequenceGenerator(name = "role_id_gen", sequenceName = "role_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = SEQUENCE, generator = "role_id_gen")
+    private Long id;
+    private String name;
 
-    private static long idGenerator = 1;
-    private final long id;
-    private final String name;
-
-    private final ArrayList<String> actions;
+    public Role() {}
 
     public Role(String name) {
-        this.id = idGenerator++;
         this.name = name;
-        actions = new ArrayList<>();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public ArrayList<String> getActions() {
-        return actions;
-    }
-
-    public void addAction(String action) {
-        this.actions.add(action);
     }
 }
