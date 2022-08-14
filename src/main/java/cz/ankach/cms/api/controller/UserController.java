@@ -3,8 +3,6 @@ package cz.ankach.cms.api.controller;
 import cz.ankach.cms.api.requests.CreateUserRequest;
 import cz.ankach.cms.api.requests.UpdateUserRequest;
 import cz.ankach.cms.api.responses.UserResponse;
-import cz.ankach.cms.entity.User;
-import cz.ankach.cms.entity.UserRole;
 import cz.ankach.cms.formatters.UserFormatter;
 import cz.ankach.cms.service.UserService;
 import org.springframework.http.HttpStatus;
