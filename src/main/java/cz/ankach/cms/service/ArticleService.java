@@ -19,15 +19,24 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
+    /**
+     * Method finds an article by its identifier.
+     * */
     public Optional<Article> findById(Long articleId) {
         return this.articleRepository.findById(articleId);
     }
 
+    /**
+     * Method finds all articles in system.
+     * */
     public List<Article> findAll() {
         return this.articleRepository.findAll();
     }
 
 
+    /**
+     * Method creates an Article object from article request.
+     * */
     public Optional<Article> createArticle(CreateArticleRequest request) {
         var user = this.userService.getById(request.userId);
         if (user.isEmpty()) {
