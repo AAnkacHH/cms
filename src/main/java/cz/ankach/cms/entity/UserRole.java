@@ -15,11 +15,11 @@ public class UserRole {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name="fk_user_role_user"))
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name="fk_user_role_role"))
     private Role role;
 
     @Column(name = "local_date_time", columnDefinition = "TIMESTAMP")
@@ -27,10 +27,10 @@ public class UserRole {
 
     public UserRole() {}
 
-    public UserRole(User user, Role role, LocalDateTime addedAt) {
+    public UserRole(User user, Role role) {
         this.user = user;
         this.role = role;
-        this.addedAt = addedAt;
+        this.addedAt = LocalDateTime.now();
     }
 
     public Long getId() {
