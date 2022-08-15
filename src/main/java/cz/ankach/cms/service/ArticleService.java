@@ -49,7 +49,7 @@ public class ArticleService {
             }
         }
 
-        Article article = new Article(request.getTitle(), request.getContent(), user.get(), LocalDateTime.now(), LocalDateTime.now());
+        Article article = new Article(request.getTitle(), request.getContent(), user.get());
         this.articleRepository.save(article);
         return Optional.of(article);
     }

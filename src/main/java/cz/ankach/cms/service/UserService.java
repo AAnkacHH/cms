@@ -51,7 +51,7 @@ public class UserService {
             if (role == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User role not found");
             }
-            UserRole userRole = new UserRole(user, role, LocalDateTime.now());
+            UserRole userRole = new UserRole(user, role);
             user.addRole(userRole);
         });
         this.userRepository.save(user);
