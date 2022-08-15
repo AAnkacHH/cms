@@ -2,6 +2,10 @@ package cz.ankach.cms.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -30,19 +34,24 @@ public class Article {
     @JoinColumn(name = "parent_article_id", foreignKey = @ForeignKey(name = "fk_article_parent"))
     private Article parentArticle = null;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "article")
+    Set<Comment> comments;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
 
-    public Article() {}
+    public Article() {
+        this.comments = new HashSet<>();
+    }
 
-    public Article(String title, String content, User author, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Article(String title, String content, User author) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = LocalDateTime.now();
+        this.comments = new HashSet<>();
     }
 
     public String getTitle() {
@@ -95,5 +104,9 @@ public class Article {
 
     public void setOrder(Integer order) {
         this.articleOrder = order;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
     }
 }
