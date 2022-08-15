@@ -1,6 +1,7 @@
 package cz.ankach.cms.api.responses;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * This class represents json payload in http response for article objects.
@@ -15,6 +16,7 @@ public class ArticleResponse {
 
     public ArticleResponse parentArticle;
 
+    public List<CommentResponse> comments;
 
     public ArticleResponse(
             String title,
@@ -23,7 +25,8 @@ public class ArticleResponse {
             Integer order,
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
-            ArticleResponse parentArticle
+            ArticleResponse parentArticle,
+            List<CommentResponse> comments
     ) {
         this.title = title;
         this.content = content;
@@ -32,21 +35,6 @@ public class ArticleResponse {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.parentArticle = parentArticle;
-    }
-
-    public ArticleResponse(
-            String title,
-            String content,
-            UserResponse user,
-            Integer order,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt
-    ) {
-        this.title = title;
-        this.content = content;
-        this.user = user;
-        this.order = order;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.comments = comments;
     }
 }
