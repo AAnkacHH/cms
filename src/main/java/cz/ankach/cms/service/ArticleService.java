@@ -1,11 +1,11 @@
 package cz.ankach.cms.service;
 
 import cz.ankach.cms.api.requests.CreateArticleRequest;
+import cz.ankach.cms.api.requests.UpdateArticleRequest;
 import cz.ankach.cms.entity.Article;
 import cz.ankach.cms.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +52,21 @@ public class ArticleService {
         Article article = new Article(request.getTitle(), request.getContent(), user.get());
         this.articleRepository.save(article);
         return Optional.of(article);
+    }
+
+    public void updateArticle(Article article, UpdateArticleRequest request) {
+        if (request.title != null) {
+            article.setTitle(request.title);
+        }
+        if (request.content != null) {
+            article.setContent(request.content);
+        }
+        articleRepository.save(article);
+    }
+
+    public void deleteArticle(Article article) {
+        // todo
+
+        articleRepository.deleteById(article.getId());
     }
 }

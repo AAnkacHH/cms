@@ -1,10 +1,12 @@
 package cz.ankach.cms.api.controller;
 
 import cz.ankach.cms.api.requests.CreateArticleRequest;
+import cz.ankach.cms.api.requests.UpdateArticleRequest;
 import cz.ankach.cms.api.responses.ArticleResponse;
 import cz.ankach.cms.entity.Article;
 import cz.ankach.cms.formatters.ArticleFormatter;
 import cz.ankach.cms.service.ArticleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +47,29 @@ public class ArticleController extends AbstractController {
             this.sendConflict("Article can not be created.");
         }
         return this.sendCreated("articleId", String.valueOf(article.get().getId()));
+    }
+
+    @PatchMapping(path= "/articles/{articleId}", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateRole(
+        @RequestBody UpdateArticleRequest formRequest,
+        @PathVariable Long articleId
+    ) {
+        var article = this.articleService.findById(articleId);
+        if (article.isEmpty()) {
+            this.sendNotFound("Article not found");
+        }
+        articleService.updateArticle(article.get(), formRequest);
+    }
+
+    @DeleteMapping(value = "/articles/{articleId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long articleId) {
+        var article = this.articleService.findById(articleId);
+        if (article.isEmpty()) {
+            this.sendNotFound("Article not found");
+        }
+
+        this.articleService.deleteArticle(article.get());
     }
 }
