@@ -1,11 +1,13 @@
 package cz.ankach.cms.api.controller;
 
 import cz.ankach.cms.api.requests.CreateArticleRequest;
+import cz.ankach.cms.api.requests.CreateCommentRequest;
 import cz.ankach.cms.api.requests.UpdateArticleRequest;
 import cz.ankach.cms.api.responses.ArticleResponse;
 import cz.ankach.cms.entity.Article;
 import cz.ankach.cms.formatters.ArticleFormatter;
 import cz.ankach.cms.service.ArticleService;
+import cz.ankach.cms.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,12 @@ public class ArticleController extends AbstractController {
     private final ArticleService articleService;
     private ArticleFormatter articleFormatter;
 
-    public ArticleController(ArticleService articleService, ArticleFormatter articleFormatter) {
+    private CommentService commentService;
+
+    public ArticleController(ArticleService articleService, ArticleFormatter articleFormatter, CommentService commentService) {
         this.articleService = articleService;
         this.articleFormatter = articleFormatter;
+        this.commentService = commentService;
     }
 
     @GetMapping("/articles")
@@ -64,12 +69,27 @@ public class ArticleController extends AbstractController {
 
     @DeleteMapping(value = "/articles/{articleId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long articleId) {
+    public void deleteArticle(@PathVariable Long articleId) {
         var article = this.articleService.findById(articleId);
         if (article.isEmpty()) {
             this.sendNotFound("Article not found");
         }
 
         this.articleService.deleteArticle(article.get());
+    }
+
+    @PostMapping(value = "/articles/{articleId}/comments")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public ResponseEntity<Object> createComment(@RequestBody CreateCommentRequest formRequest, @PathVariable Long articleId) {
+        var article = this.articleService.findById(articleId);
+        if (article.isEmpty()) {
+            this.sendNotFound("Article not found");
+        }
+
+        var comment = this.commentService.createComment(formRequest, article.get());
+        if (comment.isEmpty()) {
+            this.sendConflict("");
+        }
+        return this.sendCreated("commentId", String.valueOf(comment.get().getId()));
     }
 }

@@ -82,4 +82,12 @@ public class Comment {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 }

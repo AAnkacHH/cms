@@ -14,9 +14,12 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final UserService userService;
 
-    public ArticleService(ArticleRepository articleRepository, UserService userService) {
+    private final CommentService commentService;
+
+    public ArticleService(ArticleRepository articleRepository, UserService userService, CommentService commentService) {
         this.userService = userService;
         this.articleRepository = articleRepository;
+        this.commentService = commentService;
     }
 
     /**
@@ -65,8 +68,7 @@ public class ArticleService {
     }
 
     public void deleteArticle(Article article) {
-        // todo
-
+        this.commentService.removeByArticle(article);
         articleRepository.deleteById(article.getId());
     }
 }
