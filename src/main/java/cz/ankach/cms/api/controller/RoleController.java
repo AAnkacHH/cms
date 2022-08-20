@@ -41,7 +41,7 @@ public class RoleController extends AbstractController {
         if (newRole.isEmpty()) {
             this.sendConflict("Role has already exist.");
         }
-        return this.sendCreated("roleId", String.valueOf(newRole.get().getId()));
+        return this.sendCreated("roleId", String.valueOf(newRole.get().getRoleId()));
     }
 /*
     @DeleteMapping(path= "/roles/{roleId}")
