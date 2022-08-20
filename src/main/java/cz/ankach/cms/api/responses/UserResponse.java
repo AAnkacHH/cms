@@ -2,6 +2,9 @@ package cz.ankach.cms.api.responses;
 
 import java.util.List;
 
+/**
+ * This class represents json payload in http response for user objects.
+ * */
 public class UserResponse {
     public Long userId;
     public String username;

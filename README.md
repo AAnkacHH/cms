@@ -1,7 +1,10 @@
 # Simple CMS REST API application
 
+## Api documentation
 
-### Functions
+Available after running application at: http://localhost:8080/swagger-ui/index.html
+
+## Functions
 
 * User managing, administration.
 * Users can post their articles.

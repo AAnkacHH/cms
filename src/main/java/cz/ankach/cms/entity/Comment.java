@@ -1,26 +1,47 @@
 package cz.ankach.cms.entity;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "comment")
 public class Comment {
 
-    private static long idGenerator = 1;
-    private final long id;
+    @Id
+    @SequenceGenerator(name = "comment_id_gen", sequenceName = "comment_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_gen")
+    @Column(name = "comment_id")
+    private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id", foreignKey = @ForeignKey(name = "fk_comment_parent"))
     private Comment parent;
 
+    @ManyToOne
+    @JoinColumn(name = "article_id", foreignKey = @ForeignKey(name = "fk_comment_article"))
+    private Article article;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name="fk_comment_author"))
     private User author;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    public Comment(Comment parent, String content, User author, Date createdAt) {
-        this.id = idGenerator++;
+    private LocalDateTime updatedAt;
+
+    public Comment() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Comment(Article article, String content, User author, Comment parent) {
         this.parent = parent;
         this.content = content;
         this.author = author;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
+        this.article = article;
     }
 
     public Comment getParent() {
@@ -39,19 +60,40 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     public User getAuthor() {
         return author;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+        article.addComment(this);
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void setUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
 }
