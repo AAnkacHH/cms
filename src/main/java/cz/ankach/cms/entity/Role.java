@@ -11,7 +11,8 @@ public class Role {
     @Id
     @SequenceGenerator(name = "role_id_gen", sequenceName = "role_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = SEQUENCE, generator = "role_id_gen")
-    private Long id;
+    @Column(name = "role_id")
+    private Long roleId;
     private String name;
 
     public Role() {}
@@ -20,8 +21,8 @@ public class Role {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
+    public Long getRoleId() {
+        return roleId;
     }
 
     public String getName() {
