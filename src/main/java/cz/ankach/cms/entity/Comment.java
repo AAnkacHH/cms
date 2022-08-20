@@ -86,9 +86,14 @@ public class Comment {
 
     public void setArticle(Article article) {
         this.article = article;
+        article.addComment(this);
     }
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public void setUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

@@ -109,4 +109,12 @@ public class Article {
     public Set<Comment> getComments() {
         return comments;
     }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void deleteComment(Comment comment) {
+        this.comments.remove(comment);
+    }
 }
