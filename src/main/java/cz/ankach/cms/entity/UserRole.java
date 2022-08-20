@@ -22,7 +22,7 @@ public class UserRole {
     @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name="fk_user_role_role"))
     private Role role;
 
-    @Column(name = "local_date_time", columnDefinition = "TIMESTAMP")
+    @Column(name = "added_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime addedAt;
 
     public UserRole() {}
