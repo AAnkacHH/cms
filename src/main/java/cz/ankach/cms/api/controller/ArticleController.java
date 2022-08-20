@@ -77,19 +77,4 @@ public class ArticleController extends AbstractController {
 
         this.articleService.deleteArticle(article.get());
     }
-
-    @PostMapping(value = "/articles/{articleId}/comments")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<Object> createComment(@RequestBody CreateCommentRequest formRequest, @PathVariable Long articleId) {
-        var article = this.articleService.findById(articleId);
-        if (article.isEmpty()) {
-            this.sendNotFound("Article not found");
-        }
-
-        var comment = this.commentService.createComment(formRequest, article.get());
-        if (comment.isEmpty()) {
-            this.sendConflict("");
-        }
-        return this.sendCreated("commentId", String.valueOf(comment.get().getId()));
-    }
 }
