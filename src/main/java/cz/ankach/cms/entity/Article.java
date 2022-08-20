@@ -13,7 +13,7 @@ import java.util.Set;
 public class Article {
 
     @Id
-    @SequenceGenerator(name = "article_id_gen", sequenceName = "article_id_seq")
+    @SequenceGenerator(name = "article_id_gen", sequenceName = "article_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_id_gen")
     @Column(name = "article_id")
     private Long id;
